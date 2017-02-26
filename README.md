@@ -1,14 +1,10 @@
-# Google Daydream Unity Setup
+# Google Daydream Unity - Boxes
 
-## Target Audience
-
-This guide will move fairly slowly, however those who have never used Unity before may not get the explanations required to understand each step. Therefore it is recommended that you have even a very basic understanding of:
-  * Unity Editor (a basic entry level tutorial should suffice)
-  * Creating 3D objects and materials
-  * Prefabs
-  * Event Triggers
+Here is a beginners guide to setting up a basic Daydream app where you can pick up boxes. You can clone the repo and getting working on Daydream right away, or follow the guide to see how the project was made.
 
 ## Prerequisites
+
+A basic understanding of Unity and its interface.
 
 * Unity Daydream Preview (I used 5.4.2f2-GVR13)
   * https://unity3d.com/partners/google/daydream (download link near bottom of page)
@@ -19,9 +15,9 @@ This guide will move fairly slowly, however those who have never used Unity befo
 * Latest version of Google Daydream SDK for Unity (v1.20 at time of writing)
   * https://developers.google.com/vr/unity/download#google-vr-sdk-for-unity
 
-## Setting up Unity for Daydream dev
+## Setting up Unity for Android dev
 
-To get started with the Daydream setup, we first need to set up Unity with the GoogleVR SDK and configure it to package your project and deploy it to a Daydream ready device. To do this we also need to add the SDK paths for Java and android.
+To get started with the Daydream setup, we first need to set up Unity with the GoogleVR SDK and configure it to package the scene and deploy it to a Daydream ready device. To do this we also need to add the SDK paths for Java and android.
 
 1. Start with a new scene in a new project
 2. Find Unity preferences (Unity -> Preferences in Mac) and set the paths for:
@@ -35,23 +31,22 @@ To get started with the Daydream setup, we first need to set up Unity with the G
 
 Now that we have Unity ready to work with the GoogleVR SDK Daydream scripts, and build an android package, we can jump into the daydream boilerplate.
 
-## Daydream boilerplate
+## Daydream Boxes Project
 
 Daydream apps make use of a VR headset, which takes an android phone that displays a scene in a stereoscopic view, and a Daydream controller. Here we'll set up Unity to create that stereoscopic view, add controller support, and also set up an emulator on an android device to act as a controller within Unity so you can test your progress in the editor and not have to build to a device to view each change you make.
 
-#### Optional steps
-
-These steps are optional and are intended to help demonstrate what the various Daydream components and scripts allow us to do.
+### Initial scene setup
 
 1. Create a plane, which will act as the ground
 2. Create a cube that will be set up as a box that you'll use to interact with with the Daydream controller
   * Place it above the ground plane
   * Add a rigid body component to it to enable gravity
-3. Add materials to the box and ground plane and label them accordingly
+3. Add materials to the box and ground plane and label them accordingly... unless you want to work with a boring scene.
 
-#### Finally some Daydream setup
+#### Daydream specific setup
 
-1. Create an empty game object and label it DaydreamPlayer. This will hold all our Daydream specific objects. At the end of this guide you should be able to make a prefab out of this object to use as the Daydream player which could be switched out with a different VR config (e.g. HTC Vive, which works similar to Daydream)
+1. Create an empty game object and label it DaydreamPlayer
+  * This will hold all our Daydream specific objects. At the end of this guide you should be able to make a prefab out of this object to begin using the Daydream controller in any project
 2. Add the prefab GvrViewerMain as a child component of the DaydreamPlayer.
  * After adding this component to your scene, you should be able to run the scene and see it rendered in a stereoscopic view (split screen view). If you can't see the stereoscopic view, ensure that the build settings have been set to android (see 'Setting up Unity for Daydream dev' section of this guide for more details)
 3. Add the prefab GvrEventSystem as a child component of the DaydreamPlayer. The GvrEventSystem is similar to Unity's default UI EventSystem with the following differences:
@@ -64,13 +59,22 @@ These steps are optional and are intended to help demonstrate what the various D
   * A model of the controller that will appear in our scene
   * The laser pointer, which also appear in our scene to indicate where the controller is pointing
   * The script GvrControllerVisualManager, which will hide/show the controller model if the controller is disconnected/connected
-6. To set up the emulator controller so we can run our scene in the Unity Editor with expected results, follow the steps for `Daydream controller emulator setup`. Alternatively, you can build to a Daydream ready device and use a real controller with the steps for `Building to android device`
+6. To set up the emulator controller so we can run our scene in the Unity Editor and control the pointer, follow the steps for `Daydream controller emulator setup`. Alternatively, you can build to a Daydream ready device and use a real controller with the steps for `Building to android device`.
 
-7. If we run the scene with the emulator controller set up (or build to the phone) we will see a white pointer moving around the scene, but we won't be able to see the controller or the laser. So lets position the camera to fix this with the following steps:
+7. If we run the current scene with the emulator controller (or build to the phone) we will only see a white dot moving around the scene, but we won't be able to see the controller or the laser. So lets position the camera and controller in the following way to set up our player view and controller position:
   <ol type="a">
-    <li>Make the Main Camera a child of the DaydreamPlayer object. From now on we'll use the DaydreamPlayer to position the camera. This allows us to keep the controller and camera absolutely positioned within the DaydreamPlayer</li>
+    <li>Make the Main Camera a child of the DaydreamPlayer object. From now on we'll use the DaydreamPlayer to position the camera. This allows us to keep the controller and camera absolutely positioned within the player object</li>
     <li>Set the Main Camera's transform position to 0 (zero) for x, y, and z.</li>
-    <li>Adjust the DaydreamPlayer player position to be y=1.65, z=-5 so we can view our box in the scene</li>
+    <li>Adjust the DaydreamPlayer player position to:
+      <ul>
+        <li>
+          y = 1.65 to lift the camera up the average person height for both male and female
+        </li>
+        <li>
+          z = -5 so we can comfortably view our box in the scene
+        </li>
+      </ul>
+    </li>
     <li>Running our scene now will show us our laser pointer moving around, but we still wont be able to see the controller. This is due to the Main Camera's near clipping plane. Update this to be 0.03 (it's 0.3 by default). This will prevent the camera from cutting off objects that are close to it.</li>
     <li>*Optional* - You may notice the controller is accompanied by text indicating what the buttons are. If you're like me, this will annoy you. You can turn this off by turning off the 'Tooltips' object within the GvrControllerPointer prefab dropdown in our DaydreamPlayer</li>
   </ol>
@@ -79,14 +83,46 @@ These steps are optional and are intended to help demonstrate what the various D
   <ol type="a">
     <li>Add the BoxController.cs script from this repo to your project</li>
     <li>Add the script to the box</li>
-    <li>Add an event trigger with two events: pointer down and pointer up mapped to the functions BoxController.PickUp() and BoxController.PutDown() respectively </li>
+    <li>Add an event trigger with two events:
+      <ul>
+        <li>
+          Pointer Down - mapped to the function BoxController.PickUp()
+        </li>
+        <li>
+          Pointer Up - mapped to the function BoxController.PutDown()
+        </li>
+      </ul>
+    </li>
   </ol>
-  Running the scene now, you should notice that the box isn't responding to the controller. That's because we're missing a physics raycaster that will allow the laser to collide with objects.
-9. Select the Main Camera and add the component script GvrPointerPhysicsRaycaster. This will allow the controller to raycast against objects in the scene. Now you should be able to move the box around the screen by clicking and dragging.
+9. Now to get the box to respond to the controller. Select the Main Camera and add the component script GvrPointerPhysicsRaycaster. This will allow the controller to raycast against objects in the scene. Now you should be able to move the box around the screen by clicking and dragging.
+
+#### Create prefabs of our Daydream player
+
+At this point we have our Daydream player, which we could use in any project. Make it a prefab by:
+1. Creating a prefab object in the project view (right click -> create -> prefab -> give the prefab a name)
+2. Drag the DaydreamPlayer object from the Hierarchy panel onto the prefab. Done.
 
 #### Daydream controller to work with UI elements
-1. On UI Canvas, add "Gvr Pointer Graphic Raycaster".
-2. Set Canvas render mode to world space
+
+Lets set up a few boxes to throw around and add a button to reset their positions. First lets create some boxes.
+
+1. Repeat the previous step of `Create prefabs of our Daydream player` with the box
+2. Create an empty game object labelled Boxes
+3. Create as many boxes as you like as children to the Boxes object and place them with at least a little bit of space between each one.
+
+Now that we have some boxes, let's set up our UI button.
+
+1. Add a UI Button the scene, label it 'ResetButton' and update the button text to say 'Reset'.
+2. Update the buttons parent object 'Canvas' to have a render mode of world space.
+3. Position the canvas so that it is in front of the camera and the button can be seen.
+4. Attach the script BoxesManager from this repo to the Canvas object.
+5. In the BoxesManager script component seen in the Canvas's inspector, add each box to the Boxes list.
+6. On the button, add the script from this repo ButtonController to the button.
+7. Add an OnClick() event to the button and map it to ButtonController.OnClick()
+
+At this point if you run you're scene, you'll have a button that will be displayed when pressing the controllers menu button, however you'll notice that the pointer isn't interacting with the UI button when it's clicked. This is because UI elements cannot be reached with a physics raycaster. Instead, follow this step to set up a graphic raycaster instead.
+
+1. On the UI Canvas, add the script "GvrPointerGraphicRaycaster".
 
 ## Daydream controller emulator setup (requires android phone)
 1. Download the apk (android app file) from here: https://developers.google.com/vr/daydream/controller-emulator
