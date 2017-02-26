@@ -99,6 +99,7 @@ Daydream apps make use of a VR headset, which takes an android phone that displa
 #### Create prefabs of our Daydream player
 
 At this point we have our Daydream player, which we could use in any project. Make it a prefab by:
+
 1. Creating a prefab object in the project view (right click -> create -> prefab -> give the prefab a name)
 2. Drag the DaydreamPlayer object from the Hierarchy panel onto the prefab. Done.
 
