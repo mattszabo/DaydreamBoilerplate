@@ -1,6 +1,6 @@
 # Google Daydream Unity - Boxes
 
-Here is a beginners guide to setting up a basic Daydream app where you can pick up boxes. You can clone the repo and getting working on Daydream right away, or follow the guide to see how the project was made.
+Here is a beginners guide to setting up a basic Daydream app where you can pick up boxes. You can clone the repo and get working on Daydream right away, or follow the guide to see how the project was made.
 
 ## Prerequisites
 
