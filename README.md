@@ -43,7 +43,7 @@ Daydream apps make use of a VR headset, which takes an android phone that displa
   * Add a rigid body component to it to enable gravity
 3. Add materials to the box and ground plane and label them accordingly... unless you want to work with a boring scene.
 
-#### Daydream specific setup
+### Daydream specific setup
 
 1. Create an empty game object and label it DaydreamPlayer
   * This will hold all our Daydream specific objects. At the end of this guide you should be able to make a prefab out of this object to begin using the Daydream controller in any project
@@ -96,14 +96,14 @@ Daydream apps make use of a VR headset, which takes an android phone that displa
   </ol>
 9. Now to get the box to respond to the controller. Select the Main Camera and add the component script GvrPointerPhysicsRaycaster. This will allow the controller to raycast against objects in the scene. Now you should be able to move the box around the screen by clicking and dragging.
 
-#### Create prefabs of our Daydream player
+### Create prefabs of our Daydream player
 
 At this point we have our Daydream player, which we could use in any project. Make it a prefab by:
 
 1. Creating a prefab object in the project view (right click -> create -> prefab -> give the prefab a name)
 2. Drag the DaydreamPlayer object from the Hierarchy panel onto the prefab. Done.
 
-#### Daydream controller to work with UI elements
+### Daydream controller to work with UI elements
 
 Lets set up a few boxes to throw around and add a button to reset their positions. First lets create some boxes.
 
