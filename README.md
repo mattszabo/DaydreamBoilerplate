@@ -84,6 +84,10 @@ These steps are optional and are intended to help demonstrate what the various D
   Running the scene now, you should notice that the box isn't responding to the controller. That's because we're missing a physics raycaster that will allow the laser to collide with objects.
 9. Select the Main Camera and add the component script GvrPointerPhysicsRaycaster. This will allow the controller to raycast against objects in the scene. Now you should be able to move the box around the screen by clicking and dragging.
 
+#### Daydream controller to work with UI elements
+1. On UI Canvas, add "Gvr Pointer Graphic Raycaster".
+2. Set Canvas render mode to world space
+
 ## Daydream controller emulator setup (requires android phone)
 1. Download the apk (android app file) from here: https://developers.google.com/vr/daydream/controller-emulator
 2. Copy the apk file to your android phone. You can use the android file transfer tool for copying files to and from you pc/mac: https://www.android.com/filetransfer/
