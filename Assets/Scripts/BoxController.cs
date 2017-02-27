@@ -5,6 +5,7 @@ public class BoxController : MonoBehaviour {
 
     public bool debuggingMode = false;
 
+
 	enum BoxStates {
 		NONE,
 		PICKED_UP,
@@ -13,11 +14,13 @@ public class BoxController : MonoBehaviour {
 
 	private BoxStates boxState;
 	private GameObject pointer;
+    private Vector3 originalPosition;
 
 	// Use this for initialization
 	void Awake () {
 		boxState = BoxStates.NONE;
 		pointer = GameObject.Find("Laser");
+        originalPosition = transform.position;
 	}
 	
 	// Update is called once per frame
@@ -52,5 +55,10 @@ public class BoxController : MonoBehaviour {
 
         if (debuggingMode)
             Debug.DrawRay(newPos, pointer.transform.forward, Color.red, 10.0f);
+    }
+
+    public void ResetPosition()
+    {
+        transform.position = originalPosition;
     }
 }
