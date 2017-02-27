@@ -16,11 +16,18 @@ public class BoxController : MonoBehaviour {
 	private GameObject pointer;
     private Vector3 originalPosition;
 
+	private Vector3 objectVelocity;
+	private Vector3 objectLastPosition;
+	private bool isGravityEnabled;
+	private Rigidbody rb;
+
 	// Use this for initialization
 	void Awake () {
 		boxState = BoxStates.NONE;
 		pointer = GameObject.Find("Laser");
         originalPosition = transform.position;
+		rb = GetComponent<Rigidbody> ();
+		isGravityEnabled = (rb) ? rb.useGravity : false;
 	}
 	
 	// Update is called once per frame
@@ -29,9 +36,15 @@ public class BoxController : MonoBehaviour {
 			case BoxStates.NONE:
 				break;
 			case BoxStates.PICKED_UP:
+				if (isGravityEnabled) {
+					CalculateObjectVelocity ();
+				}
 				FollowPointer();
 				break;
 			case BoxStates.PUT_DOWN:
+				if (isGravityEnabled) {
+					ApplyMomentumToObject ();
+				}
 				boxState = BoxStates.NONE;
 				break;
 			default:
@@ -61,4 +74,19 @@ public class BoxController : MonoBehaviour {
     {
         transform.position = originalPosition;
     }
+
+	private void CalculateObjectVelocity() {
+		objectVelocity = (transform.position - objectLastPosition) / Time.fixedDeltaTime;
+		objectLastPosition = transform.position;
+	}
+
+	private void ApplyMomentumToObject() {
+		float velocityMultiplier = 10.0f;
+		rb.AddForce (
+			objectVelocity.x * velocityMultiplier,
+			objectVelocity.y * velocityMultiplier,
+			objectVelocity.z * velocityMultiplier,
+			ForceMode.Force
+		);
+	}
 }
