@@ -3,6 +3,8 @@ using System.Collections;
 
 public class BoxController : MonoBehaviour {
 
+    public bool debuggingMode = false;
+
 	enum BoxStates {
 		NONE,
 		PICKED_UP,
@@ -13,7 +15,7 @@ public class BoxController : MonoBehaviour {
 	private GameObject pointer;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		boxState = BoxStates.NONE;
 		pointer = GameObject.Find("Laser");
 	}
@@ -42,8 +44,13 @@ public class BoxController : MonoBehaviour {
 		boxState = BoxStates.PUT_DOWN;
 	}
 
-	public void FollowPointer() {
-		Ray ray = new Ray (pointer.transform.position, pointer.transform.forward);
-		transform.position = ray.GetPoint (5.0f);
-	}
+    public void FollowPointer() {
+        Ray ray = new Ray (pointer.transform.position, pointer.transform.forward);
+        Vector3 newPos = ray.GetPoint (5.0f);
+        newPos.z = 0; 
+        transform.position = newPos;
+
+        if (debuggingMode)
+            Debug.DrawRay(newPos, pointer.transform.forward, Color.red, 10.0f);
+    }
 }

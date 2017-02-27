@@ -35,8 +35,6 @@ ExportedObj/
 *.unityproj
 *.booproj
 *.tmp
-Assets/MatterportVR/Matterport.VR/Matterport.VR.sln*
-Assets/MatterportVR/Matterport.VR/Matterport.VR.userprefs*
 
 # ============ #
 # OS generated #
@@ -51,4 +49,8 @@ ehthumbs.db
 Thumbs.db
 Thumbs.db.meta
 
+# ====== #
+# Others #
+# ====== #
 *.apk
+./Assets/GoogleVR/Scripts/Controller/Internal/Emulator/EmulatorConfig.cs
